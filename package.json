@@ -16,7 +16,7 @@
     "ejs-locals": "^1.0.2",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "mocha": "^7.1.2",
     "mongoose": "^5.8.7",
     "passport": "^0.4.1",
