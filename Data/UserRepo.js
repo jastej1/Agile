@@ -4,6 +4,27 @@ class UserRepo {
     UserRepo() {        
     }
 
+    async getUserByEmail(email) {
+        var user = await User.findOne({email: email});
+        if(user) {
+            let respose = { obj: user, errorMessage:"" }
+            return respose;
+        }
+        else {
+            return null;
+        }
+    }
+
+    async getRolesByUsername(username) {
+        var user = await User.findOne({username: username}, {_id:0, roles:1});
+        if(user.roles) {
+            return user.roles;
+        }
+        else {
+            return [];
+        }
+    }
+    
     async allUsers(){
         let users = await User.find().exec();
         return users;
@@ -28,6 +49,15 @@ class UserRepo {
             {$set: { username: new_username, firstName: new_firstName, lastName: new_lastName, email:new_email}}
         )
        return respose;
+    }
+
+    async delete(username) {
+        let detail = await this.getUser(username)
+        let id = detail._id
+        console.log("Id to be deleted is: " + id);
+        let deletedItem =  await User.find({_id:id}).deleteOne().exec();
+        console.log(deletedItem);
+        return deletedItem;
     }
 }
 module.exports = UserRepo;

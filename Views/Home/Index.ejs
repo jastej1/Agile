@@ -1,4 +1,10 @@
+
 <% layout('../layouts/mainlayout.ejs') -%>
+<%if (Notification) { %>
+    <b style="color: green; float: right; font-size: 20px;">Event Today</b>
+
+ <% } else { %>
+ <% } %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +17,8 @@
 
 </head>
 <body>
-<div class="container col-sm-5 col-md-8 col-lg-5 mt-6">
+    <h1>Calendar</h1>
+<div class="container col-sm-4 col-md-7 col-lg-6 mt-5">
     <div class="card">
         <h3 class="card-header" id="monthAndYear"></h3>
         <table class="table table-bordered table-responsive-sm" id="calendar">
@@ -103,7 +110,11 @@
     </div>
 </div>
 <!--<button name="jump" onclick="jump()">Go</button>-->
-<script>today = new Date();
+
+<!-- Optional JavaScript for bootstrap -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script>    
+    today = new Date();
     currentMonth = today.getMonth();
     currentYear = today.getFullYear();
     selectYear = document.getElementById("year");
@@ -136,7 +147,7 @@
     function showCalendar(month, year) {
     
         let firstDay = (new Date(year, month)).getDay();
-    
+        
         tbl = document.getElementById("calendar-body"); // body of the calendar
     
         // clearing all previous cells
@@ -171,6 +182,14 @@
                     if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                         cell.classList.add("bg-info");
                     } // color today's date
+                    //let authenticated = <%=reqInfo.authenticated%>;
+                   // var events_arr = '<%- JSON.stringify(myevents) %>';
+                    // var new = JSON.parse(events_arr);
+                    if(false)
+                    {
+                        //console.log(authenticated)
+                        //console.log(events_arr)
+                    }
                     cell.appendChild(cellText);
                     row.appendChild(cell);
                     date++;
@@ -184,15 +203,10 @@
     
     }
     
-    
-    // check how many days in a month code from https://dzone.com/articles/determining-number-days-month
     function daysInMonth(iMonth, iYear) {
         return 32 - new Date(iYear, iMonth, 32).getDate();
-    }
+    } 
     </script>
-
-<!-- Optional JavaScript for bootstrap -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

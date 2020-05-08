@@ -9,13 +9,20 @@
 
 <main role="main" class="container">
     <div class="starter-template">
-        <a href='/'>Home</a> |
+        <a href='/Home/Index'>Home</a> |
 
         <%if (reqInfo.authenticated) { %>
         <a href='/User/Profile'>Profile</a> | 
 
         <% } else { %>
-          <a href='/User/Register'>Register</a> |
+          <a href='/User/Register'>Register</a> | 
+        <% } %>
+
+        <%if (reqInfo.authenticated) { %>
+          <a href='/User/MyEvents'>My Events</a> |
+
+        <% } else { %>
+          
         <% } %>
 
         <%if (reqInfo.authenticated) { %>
