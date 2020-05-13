@@ -1,0 +1,35 @@
+<% layout('../layouts/mainlayout.ejs') -%>
+<br/><br>
+<form action="/User/CreationEvent" method="POST"> 
+    <table>
+        <input id="userID" name="userID" type="hidden" value=<%=user._id %>>
+        <tr>
+            <td><b>Event Name: </b</td>
+            <td><input name="name" type="text" value="<%= event.name ? event.name : '' %>"></td>
+        </tr>
+        <tr>
+            <td><b>Description:</b></td>
+            <td><input name="description" type="text" value="<%= event.description ? event.description : '' %>"></td>
+        </tr>
+        <tr>
+            <td><b>Attendees:</b></td>
+            <td><input name="attendees" type="text" value="<%= event.attendees ? event.attendees : '' %>"></td>
+        </tr>
+        <tr>
+            <td><b>Date:</b></td>
+            <td><input name="date" type="datetime-local" value="<%= event.date ? event.date : '' %>"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> <input type="submit" value="Submit" style="width:150px"></td>
+        </tr>
+        <tr>
+            <td></td>
+        </td>
+        </tr>
+
+    </table>
+
+</form>
+
+<%= errorMessage %><br/>

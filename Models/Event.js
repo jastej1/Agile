@@ -5,7 +5,8 @@ var mongoose              = require('mongoose');
 var eventSchema = mongoose.Schema({
 
   name: {
-    type: String
+    type: String,
+    required: true
   },
   description: {
     type: String
@@ -13,14 +14,12 @@ var eventSchema = mongoose.Schema({
   people: {
     type: Array
   },
-  month: {
-    type: Number
+  date: {
+    type: Date,
+    required: true
   },
-  day: {
-    type: Number
-  },
-  time: {
-    type: Number
+  userID: {
+    type: String
   }
 
 });

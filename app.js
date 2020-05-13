@@ -7,24 +7,43 @@ var engine        = require('ejs-locals');
 var bodyParser    = require('body-parser');
 var LocalStrategy = require('passport-local').Strategy;
 const DB_URI      = 'mongodb://localhost:27017/calendar';
-let options       = { useNewUrlParser: true , useUnifiedTopology: true };
+let options       = { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false, useNewUrlParser: true  };
 mongoose.connect(DB_URI, options);
-mongoose.set('useCreateIndex', true);
 
 var app           = express();
+var cors = require('cors');
+app.use(cors());
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+  res.header("Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
 
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded({ extended: true }));;
-app.use(express.json());
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge:60000 },
+  store: new (require('express-sessions'))({
+    storage: 'mongodb',
+    instance: mongoose,     // optional
+    host: 'localhost',      // optional
+    port: 27017,            // optional
+    db: 'testdb',           // optional
+    collection: 'sessions', // optional
+  })
+
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 const User = require('./Models/User');
@@ -52,3 +71,5 @@ app.use(express.static(path.join(__dirname, 'static')));
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+module.exports = app; // for testing

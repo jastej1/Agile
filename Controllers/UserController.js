@@ -1,10 +1,12 @@
 const User           = require('../Models/User');
 var   passport       = require('passport');
 const RequestService = require('../Services/RequestService');
-const UserRepo = require('../Data/UserRepo');
-const _UserRepo = new UserRepo();
-
-
+const UserRepo       = require('../Data/UserRepo');
+const _userRepo      = new UserRepo();
+const EventRepo      = require('../Data/EventRepo');
+const _EventRepo     = new EventRepo();
+const Event          = require('../Models/Event')
+var dateFormat       = require('dateformat');
 
 // Displays registration form.
 exports.Register = async function(req, res) {
@@ -14,10 +16,32 @@ exports.Register = async function(req, res) {
 
 // Handles 'POST' with registration form submission.
 exports.RegisterUser  = async function(req, res){
-   
+    let flag = false;
+    let reqInfo      = RequestService.reqHelper(req);
     var password        = req.body.password;
     var passwordConfirm = req.body.passwordConfirm;
+    if(req.body.username == "" || req.body.firstName == "" || req.body.lastName == "")
+    {
+        flag = true;
+        return res.render('User/Register', {errorMessage:"Invalid Entry", user:{}, reqInfo:reqInfo})
 
+    }
+    
+    if(!(req.body.email.includes("@")))
+    {
+        flag = true;
+        return res.render('User/Register', {errorMessage:"Invalid Email", user:{}, reqInfo:reqInfo})
+
+    }
+
+    if(req.body.password.length < 6)
+    {
+        flag = true;
+        return res.render('User/Register', {errorMessage:"Password must be minimum of 6 characters", user:{}, reqInfo:reqInfo})
+
+    }
+
+    //console.log(flag);
     if (password == passwordConfirm) {
 
         // Creates user object with mongoose model.
@@ -49,15 +73,44 @@ exports.RegisterUser  = async function(req, res){
 
     }
     else {
-      res.render('User/Register', { user:newUser, 
+      res.render('User/Register', { user:{}, 
               errorMessage: "Passwords do not match.", 
               reqInfo:reqInfo})
     }
 };
 
+// Shows login form.
+exports.Login = async function(req, res) {
+    let reqInfo      = RequestService.reqHelper(req);
+    let errorMessage = req.query.errorMessage; 
+
+    res.render('User/Login', { user:{}, errorMessage:errorMessage, 
+                               reqInfo:reqInfo});
+}
+
+exports.LoginUser = async function(req, res, next) {
+    
+    passport.authenticate('local', {
+        successRedirect : '/Home/Index', 
+        failureRedirect : '/User/Login?errorMessage=Invalid login.', 
+    }) (req, res, next);
+  };
+  
+
+// Log user out and direct them to the login screen.
+exports.Logout = (req, res) => {
+    req.logout();
+    let reqInfo = RequestService.reqHelper(req);
+
+    res.render('User/Login', { user:{}, isLoggedIn:false, errorMessage : "", 
+                               reqInfo:reqInfo});
+};
+
+
+
 exports.Profile  = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
-    let user = await _UserRepo.getUser(reqInfo.username);
+    let user = await _userRepo.getUser(reqInfo.username);
     if(reqInfo.authenticated) {
         res.render('User/Profile', {errorMessage:"",user:{}, reqInfo:reqInfo, user})
     }
@@ -77,70 +130,135 @@ exports.UpdateUser  = async function(req, res) {
     let new_email = req.body.email;
     let errorMessage = req.query.errorMessage; 
 
-    let responseObject = await _UserRepo.update(old_username, new_username, new_firstName, new_lastName, new_email);
+    let responseObject = await _userRepo.update(old_username, new_username, new_firstName, new_lastName, new_email);
     reqInfo = RequestService.reqHelper(req)
     req.logout();
     exports.Login(req, res);
-
-
 }
 
-// Shows login form.
-exports.Login = async function(req, res) {
-    let reqInfo      = RequestService.reqHelper(req);
-    let errorMessage = req.query.errorMessage; 
-
-    res.render('User/Login', { user:{}, errorMessage:errorMessage, 
-                               reqInfo:reqInfo});
-}
-
-// Receives login information & redirects 
-// depending on pass or fail.
-exports.LoginUser = (req, res, next) => {
-
-  passport.authenticate('local', {
-      successRedirect : '/', 
-      failureRedirect : '/User/Login?errorMessage=Invalid login.', 
-  }) (req, res, next);
-};
-
-// Log user out and direct them to the login screen.
-exports.Logout = (req, res) => {
-    req.logout();
+exports.Events = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
+    let eventsalt = await _EventRepo.allEvent();
+    let user2 = await _userRepo.getUser(reqInfo.username);
+    let today = new Date()
+    var Notification = false;
+    if(reqInfo.authenticated)
+    {
+        Notification = check_notification(eventsalt, user2)
+    }
+    if(!(reqInfo.authenticated)) {
+        res.redirect('/User/Login?errorMessage=You ' + 
+                     'must be logged in to view this page.')
+        return
+        }
+    let events = [];
+    let events2 = [];
+    let events3 = [];
+    let user = await _userRepo.getUser(reqInfo.username);
+    let events_temp = await _EventRepo.allEvent();
 
-    res.render('User/Login', { user:{}, isLoggedIn:false, errorMessage : "", 
-                               reqInfo:reqInfo});
-};
-
-// This displays a view called 'securearea' but only 
-// if user is authenticated.
-exports.SecureArea  = async function(req, res) {
-    let reqInfo = RequestService.reqHelper(req);
-
+    for(let i = 0; i < events_temp.length; i++)
+    {   
+        if(events_temp[i].userID == user._id)
+        {
+            events.push(events_temp[i]);
+        }
+        if(events_temp[i].userID == user._id && today.getDate() == events_temp[i].date.getDate() && today.getMonth() == events_temp[i].date.getMonth())
+        {
+            events2.push(events_temp[i]);
+        }
+        if(events_temp[i].userID == user._id && today.getMonth() == events_temp[i].date.getMonth() )
+        {
+            events3.push(events_temp[i]);
+        }
+    }
+    events.sort((a, b) => b.date - a.date).reverse()
+    events2.sort((a, b) => b.date - a.date).reverse()
+    events3.sort((a, b) => b.date - a.date).reverse()
     if(reqInfo.authenticated) {
-        res.render('User/SecureArea', {errorMessage:"", reqInfo:reqInfo})
+    return res.render('User/Events', { reqInfo:reqInfo, events:events, events2:events2, events3:events3, dateFormat:dateFormat, Notification:Notification });
     }
     else {
         res.redirect('/User/Login?errorMessage=You ' + 
                      'must be logged in to view this page.')
     }
-}
+};
 
-exports.Notice  = async function(req, res) {
+exports.CreationEvent = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
-    let user = await _UserRepo.getUser(reqInfo.username);
-    let reviews = await _ReviewRepo.allReviews();
+    if(req.body.name == null || req.body.date == null)
+    {
+        return res.render('User/CreateEvent', {errorMessage:"Invalid Entry", reqInfo:reqInfo})
+    }
 
-
-    if(reqInfo.authenticated) {
-        exports.MyReviews(req, res);
+    let temp  = new Event( {
+        name:               req.body.name,
+        description:        req.body.description,
+        people:             req.body.attendees,
+        date:               req.body.date,
+        userID:             req.body.userID,
+    });
+    let responseObject = await _EventRepo.create(temp);
+    if(responseObject.errorMessage == "") {
+        console.log('Saved without errors.');
+        exports.Events(req, res);
     }
     else {
-        res.render('User/Notice', {errorMessage:"", reqInfo:reqInfo, user, reviews})
+        console.log("An error occured. Item not created.");
+        let err = "An error occured. Item not created."
+        exports.CreateEvent(req,res,"", err);
     }
+};
+
+exports.CreateEvent = async function(req, res, temp ="", errorMessage="") {
+    let reqInfo = RequestService.reqHelper(req);
+    let user = await _userRepo.getUser(reqInfo.username);
+    if(reqInfo.authenticated) {
+        res.render('User/CreateEvent', { reqInfo, user, event:{}, errorMessage:errorMessage});
+    }
+    else {
+        res.redirect('/User/Login')
+    }
+};
+
+exports.DeleteEvent = async function(req, res, temp ="", errorMessage="") {
+    let id           = req.body._id;
+    let deletedItem  = await _EventRepo.delete(id);
+
+    // Some debug data to ensure the item is deleted.
+    console.log(JSON.stringify(deletedItem));
+    if(deletedItem.deletedCount == 0)
+    {
+        return res.send(404);
+    }
+    exports.Events(req, res);
 }
 
+exports.AltDeleteEvent = async function(req, res, temp ="", errorMessage="") {
+    let id           = req.body._id;
+    let deletedItem  = await _EventRepo.alt_delete(id)
 
+    // Some debug data to ensure the item is deleted.
+    console.log(JSON.stringify(deletedItem));
+    if(deletedItem.deletedCount == 0)
+    {
+        return res.send(404);
+    }
+    exports.Events(req, res);
+}
 
-
+function check_notification(events, user)
+{
+    user = user._id
+    let today = new Date()
+    for(let i = 0; i < events.length; i++)
+    {  
+        //console.log(today.getDate());
+        //console.log(events[i].date.getDate())
+        if(user == events[i].userID && today.getMonth() == events[i].date.getMonth() && today.getDate() == events[i].date.getDate())
+        {
+            return true
+        }
+    }
+    return false
+}
