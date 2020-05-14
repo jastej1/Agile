@@ -6,7 +6,7 @@ var path          = require('path');
 var engine        = require('ejs-locals');
 var bodyParser    = require('body-parser');
 var LocalStrategy = require('passport-local').Strategy;
-const DB_URI      = 'mongodb://localhost:27017/calendar';
+const DB_URI      = 'mongodb+srv://agile:huSrhfiCFo4Ig2xG@cluster0-nmtc6.mongodb.net/test?retryWrites=true&w=majority'
 let options       = { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false, useNewUrlParser: true  };
 mongoose.connect(DB_URI, options);
 
