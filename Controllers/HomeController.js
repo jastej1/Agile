@@ -10,7 +10,6 @@ exports.Index = async function(req, res) {
     let user = await _userRepo.getUser(reqInfo.username);
     var Notification = false;
     let myevents = [];
-    temp = {};
     if(reqInfo.authenticated)
     {
         Notification = check_notification(events, user)
@@ -19,7 +18,7 @@ exports.Index = async function(req, res) {
         {   
             if(events[i].userID == user._id)
             {
-                myevents.push(events[i])
+                myevents.push(events[i].name + "|" + events[i].date);
             }
         }
     }
