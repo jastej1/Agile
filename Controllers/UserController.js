@@ -172,6 +172,31 @@ exports.Events = async function(req, res) {
             events3.push(events_temp[i]);
         }
     }
+
+    let alt_events = []
+
+    for(let i = 0; i < events_temp.length; i++) {
+        for(let username in events_temp[i].people) {
+            username = parseInt(username)
+            if (events_temp[i].people[username] == reqInfo.username) {
+                alt_events.push(events_temp[i])
+            }
+        }
+    }
+
+    for(let i = 0; i < alt_events.length; i++) {   
+        events.push(alt_events[i]);
+        if(today.getDate() == alt_events[i].date.getDate() && today.getMonth() == alt_events[i].date.getMonth()) {
+            events2.push(alt_events[i]);
+        }
+        if(today.getMonth() == alt_events[i].date.getMonth() ) {
+            events3.push(alt_events[i]);
+        }
+    }
+
+
+
+
     events.sort((a, b) => b.date - a.date).reverse()
     events2.sort((a, b) => b.date - a.date).reverse()
     events3.sort((a, b) => b.date - a.date).reverse()
@@ -213,8 +238,9 @@ exports.CreationEvent = async function(req, res) {
 exports.CreateEvent = async function(req, res, temp ="", errorMessage="") {
     let reqInfo = RequestService.reqHelper(req);
     let user = await _userRepo.getUser(reqInfo.username);
+    let allusers = await _userRepo.allUsers()
     if(reqInfo.authenticated) {
-        res.render('User/CreateEvent', { reqInfo, user, event:{}, errorMessage:errorMessage});
+        res.render('User/CreateEvent', { reqInfo, user, event:{}, allusers:allusers, errorMessage:errorMessage});
     }
     else {
         res.redirect('/User/Login')
