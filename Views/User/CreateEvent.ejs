@@ -12,27 +12,23 @@
             <td><b>Description:</b></td>
             <td><input name="description" type="text" value="<%= event.description ? event.description : '' %>"></td>
         </tr>
-        <tr>
-            <td><b>Attendees:</b></td></tr>
-            <% for (let i=0; i < allusers.length; i++) { %>
-            <tr>
-                <td></td>
-                <td><b><%=allusers[i].username%></b><input name="attendees" type="checkbox" value="<%= allusers[i].username ? allusers[i].username : '' %>"></td>
-            </tr>
-            <% } %>
-
-        <tr>
             <td><b>Date:</b></td>
             <td><input name="date" type="datetime-local" value="<%= event.date ? event.date : '' %>"></td>
         </tr>
         <tr>
-            <td></td>
-            <td> <input type="submit" value="Submit" style="width:150px"></td>
-        </tr>
-        <tr>
-            <td></td>
-        </td>
-        </tr>
+            <td><b>Attendees:</b><p></td>
+                <td>
+            <% for (let i=0; i < allusers.length; i++) { %>
+                <% if(allusers[i].username == reqInfo.username)
+                {   continue; }
+                %>
+            
+                <%=allusers[i].username%>&nbsp;</b><input name="attendees" type="checkbox" value="<%= allusers[i].username ? allusers[i].username : '' %>">
+            <% } %></p>
+                </td></tr>
+                <tr>
+                <td> <input type="submit" value="Submit" style="width:150px"></td>
+            </tr>
 
     </table>
 
