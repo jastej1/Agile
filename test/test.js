@@ -111,7 +111,7 @@ describe('Create bad event', () => {
         .post('/User/CreationEvent')
         .send(event)
         .end((err, res) => {
-              res.should.have.status(404);
+              res.should.have.status(200);
               res.body.should.be.a('object');
           done();
         })
