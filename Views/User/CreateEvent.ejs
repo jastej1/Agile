@@ -1,4 +1,5 @@
 <% layout('../layouts/mainlayout.ejs') -%>
+
 <br/><br>
 <form action="/User/CreationEvent" method="POST"> 
     <table>
@@ -12,9 +13,14 @@
             <td><input name="description" type="text" value="<%= event.description ? event.description : '' %>"></td>
         </tr>
         <tr>
-            <td><b>Attendees:</b></td>
-            <td><input name="attendees" type="text" value="<%= event.attendees ? event.attendees : '' %>"></td>
-        </tr>
+            <td><b>Attendees:</b></td></tr>
+            <% for (let i=0; i < allusers.length; i++) { %>
+            <tr>
+                <td></td>
+                <td><b><%=allusers[i].username%></b><input name="attendees" type="checkbox" value="<%= allusers[i].username ? allusers[i].username : '' %>"></td>
+            </tr>
+            <% } %>
+
         <tr>
             <td><b>Date:</b></td>
             <td><input name="date" type="datetime-local" value="<%= event.date ? event.date : '' %>"></td>
@@ -29,6 +35,7 @@
         </tr>
 
     </table>
+
 
 </form>
 
