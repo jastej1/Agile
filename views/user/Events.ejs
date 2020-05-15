@@ -1,0 +1,144 @@
+<% layout('../layouts/mainlayout.ejs') -%>
+<%if (Notification) { %>
+    <b style="color: green; float: right; font-size: 20px;">Event Today</b>
+
+ <% } else { %>
+ <% } %>
+<div style="font-size:40px"><a href="/User/CreateEvent">Create Event</a></div>
+<br>
+<h3>My Events</h3>
+<button class="button" onclick="showall()">All Events</button>
+<button class="button" onclick="showtoday()">Today's Events</button>
+<button class="button" onclick="showmonth()">Month's Events</button>
+
+
+<div id="allevents">
+<% if (events.length == 0)
+{ %>
+<br><br>
+    <h5 style="color: darkmagenta; position:relative; left: 10%;">You have no Events</h5>
+<%}%>
+<table style="width:600px; padding: 10%;">
+    <br>
+    <h4 style="color: blueviolet;">All Events</h4>
+    <% for (i=0; i < events.length; i++) { %>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Date</th>
+        </tr>
+        <tr>
+            <td><%=events[i].name%></td>
+            <td><%=events[i].description%></td>
+            <td><%=dateFormat(events[i].date, "dddd, mmmm dS, yyyy")%></td>
+            <td>
+                <form action="/Event/Delete" method="POST">
+                  <input id="_id" name="_id" type="hidden" value=<%= events[i]._id %> >
+                  <input type="submit" value="Delete">
+                </form>
+              </td>
+        </tr>
+        <% } %>
+  </table>
+</div>
+
+
+<div id="dayevents" style="display: none;">
+    <% if (events2.length == 0)
+    { %>
+    <br><br>
+        <h5 style="color: darkmagenta; position:relative; left: 10%;">You have no events today</h5>
+    <%}%>
+    <table style="width:600px; padding: 10%;">
+        <br>
+        <h4 style="color: blueviolet;">Today's Events</h4>
+        <% for (i=0; i < events2.length; i++) { %>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+            <tr>
+                <td><%=events2[i].name%></td>
+                <td><%=events2[i].description%></td>
+                <td><%=dateFormat(events2[i].date, "dddd, mmmm dS, yyyy")%></td>
+                <td>
+                    <form action="/Event/Delete" method="POST">
+                      <input id="_id" name="_id" type="hidden" value=<%= events2[i]._id %> >
+                      <input type="submit" value="Delete">
+                    </form>
+                  </td>
+            </tr>
+            <% } %>
+      </table>
+    </div>
+
+
+    <div id="monthevents" style="display: none;">
+        <% if (events3.length == 0)
+        { %>
+        <br><br>
+            <h5 style="color: darkmagenta; position:relative; left: 10%;">You have no events this month</h5>
+        <%}%>
+        <table style="width:600px; padding: 10%;">
+            <br>
+            <h4 style="color: blueviolet;">Month's Events</h4>
+            <% for (i=0; i < events3.length; i++) { %>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+                <tr>
+                    <td><%=events3[i].name%></td>
+                    <td><%=events3[i].description%></td>
+                    <td><%=dateFormat(events3[i].date, "dddd, mmmm dS, yyyy")%></td>
+                    <td>
+                        <form action="/Event/Delete" method="POST">
+                          <input id="_id" name="_id" type="hidden" value=<%= events3[i]._id %> >
+                          <input type="submit" value="Delete">
+                        </form>
+                      </td>
+                </tr>
+                <% } %>
+          </table>
+        </div>
+<script>
+    function showall()
+    {
+        document.getElementById('dayevents').style.display = "none";
+        document.getElementById('monthevents').style.display = "none";
+        document.getElementById('allevents').style.display = "block";
+    }
+    function showtoday()
+    {
+        document.getElementById('allevents').style.display = "none";
+        document.getElementById('monthevents').style.display = "none";
+        document.getElementById('dayevents').style.display = "block";
+    }
+    function showmonth()
+    {
+        document.getElementById('dayevents').style.display = "none";
+        document.getElementById('allevents').style.display = "none";
+        document.getElementById('monthevents').style.display = "block";
+    }
+</script>
+
+<style>
+    .button {
+      background-color: green;
+      border: none;
+      color: white;
+      padding: 6px 24px;
+      text-align: center;
+      font-size: 18px;
+      margin: 4px 2px;
+      opacity: 0.6;
+      transition: 0.3s;
+      display: inline-block;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    .button:hover {opacity: 1}
+    </style>

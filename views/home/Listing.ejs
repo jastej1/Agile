@@ -1,0 +1,27 @@
+<% layout('../layouts/mainlayout.ejs') -%>
+<p></p>
+<table style="width:600px; text-align: left;">
+<tr>
+  <th><b>Rating out of 5</b></th>
+  <th><h2><%=movie.movieName%></h2></th>
+  <th><a href='/User/Create?_id=<%= movie._id %>'> Write a Review</b></th>
+</tr>
+<%for(var i = 0; i < reviews.length; i++) 
+  { 
+    if(reviews[i].movieID == movie._id) {%>
+
+<tr>
+  <th><%=reviews[i].Stars%></th>
+  <th><%=reviews[i].Review%></th>
+  <th><%= date_gen(reviews[i].date) %></th>
+  <th><%= username(reviews[i].userID) %></th>
+</tr>
+<%}} %>
+
+
+
+
+
+
+
+</table>

@@ -9,20 +9,20 @@ module.exports = function(app){
     // Main Routes
     app.get('/',      HomeController.Index);
     app.use(express.static('public'))
-    app.get('/Home/Index', HomeController.Index)
-    app.get('/Home/Index', UserController.Register);
-    app.get('/User/Register', UserController.Register);
-    app.post('/User/RegisterUser', cors(), UserController.RegisterUser);
-    app.get('/User/Login', UserController.Login);
-    app.post('/User/LoginUser', UserController.LoginUser);
-    app.get('/User/Logout', UserController.Logout);
-    app.get('/User/Profile', UserController.Profile);
-    app.get('/User/MyEvents', UserController.Events);
-    app.get('/User/CreateEvent', UserController.CreateEvent);
-    app.post('/User/CreationEvent', cors(), UserController.CreationEvent);
-    app.post('/User/UpdateUser', cors(), UserController.UpdateUser);
-    app.post('/Event/Delete', cors(), UserController.DeleteEvent);
-    app.post('/Event/altDelete', cors(), UserController.AltDeleteEvent);    
+    app.get('/home/index', HomeController.Index)
+    app.get('/home/index', UserController.Register);
+    app.get('/user/Register', UserController.Register);
+    app.post('/user/registeruser', cors(), UserController.RegisterUser);
+    app.get('/user/Login', UserController.Login);
+    app.post('/user/LoginUser', UserController.LoginUser);
+    app.get('/user/Logout', UserController.Logout);
+    app.get('/user/Profile', UserController.Profile);
+    app.get('/user/MyEvents', UserController.Events);
+    app.get('/user/CreateEvent', UserController.CreateEvent);
+    app.post('/user/CreationEvent', cors(), UserController.CreationEvent);
+    app.post('/user/UpdateUser', cors(), UserController.UpdateUser);
+    app.post('/event/Delete', cors(), UserController.DeleteEvent);
+    app.post('/event/altDelete', cors(), UserController.AltDeleteEvent);    
     // Sign in
     app.post(
         '/auth', cors(),

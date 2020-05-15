@@ -24,7 +24,7 @@ describe('Properly create, login, and delete user', () => {
         passwordConfirm: "123456"
     }
     chai.request(app)
-        .post('/User/RegisterUser')
+        .post('/user/registeruser')
         .send(user)
         .end((err, res) => {
               res.should.have.status(200);
@@ -69,7 +69,7 @@ describe('Properly create and delete event', () => {
         userID:         "5eb2ee871ee4361d6800dedd"           
       }
     chai.request(app)
-        .post('/User/CreationEvent')
+        .post('/user/CreationEvent')
         .send(event)
         .end((err, res) => {
               res.should.have.status(200);
@@ -84,7 +84,7 @@ describe('Properly create and delete event', () => {
       _id: "5eb2ee871ee4361d6800dedd",
     }
   chai.request(app)
-      .post('/Event/altDelete')
+      .post('/event/altDelete')
       .send(delete_val)
       .end((err, res) => {
             res.should.have.status(200);
@@ -108,7 +108,7 @@ describe('Create bad event', () => {
         userID:         "5eb2ee871ee4361d6800dedd"           
       }
     chai.request(app)
-        .post('/User/CreationEvent')
+        .post('/user/CreationEvent')
         .send(event)
         .end((err, res) => {
               res.should.have.status(200);

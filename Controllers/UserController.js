@@ -11,7 +11,7 @@ var dateFormat       = require('dateformat');
 // Displays registration form.
 exports.Register = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
-    res.render('User/Register', {errorMessage:"", user:{}, reqInfo:reqInfo})
+    res.render('user/Register', {errorMessage:"", user:{}, reqInfo:reqInfo})
 };
 
 // Handles 'POST' with registration form submission.
@@ -23,21 +23,21 @@ exports.RegisterUser  = async function(req, res){
     if(req.body.username == "" || req.body.firstName == "" || req.body.lastName == "")
     {
         flag = true;
-        return res.render('User/Register', {errorMessage:"Invalid Entry", user:{}, reqInfo:reqInfo})
+        return res.render('user/Register', {errorMessage:"Invalid Entry", user:{}, reqInfo:reqInfo})
 
     }
     
     if(!(req.body.email.includes("@")))
     {
         flag = true;
-        return res.render('User/Register', {errorMessage:"Invalid Email", user:{}, reqInfo:reqInfo})
+        return res.render('user/Register', {errorMessage:"Invalid Email", user:{}, reqInfo:reqInfo})
 
     }
 
     if(req.body.password.length < 6)
     {
         flag = true;
-        return res.render('User/Register', {errorMessage:"Password must be minimum of 6 characters", user:{}, reqInfo:reqInfo})
+        return res.render('user/Register', {errorMessage:"Password must be minimum of 6 characters", user:{}, reqInfo:reqInfo})
 
     }
 
@@ -61,7 +61,7 @@ exports.RegisterUser  = async function(req, res){
                     // Show registration form with errors if fail.
                     if (err) {
                         let reqInfo = RequestService.reqHelper(req);
-                        return res.render('User/Register', 
+                        return res.render('user/Register', 
                         { user : newUser, errorMessage: err, 
                           reqInfo:reqInfo });
                     }
@@ -73,7 +73,7 @@ exports.RegisterUser  = async function(req, res){
 
     }
     else {
-      res.render('User/Register', { user:{}, 
+      res.render('user/Register', { user:{}, 
               errorMessage: "Passwords do not match.", 
               reqInfo:reqInfo})
     }
@@ -84,7 +84,7 @@ exports.Login = async function(req, res) {
     let reqInfo      = RequestService.reqHelper(req);
     let errorMessage = req.query.errorMessage; 
 
-    res.render('User/Login', { user:{}, errorMessage:errorMessage, 
+    res.render('user/Login', { user:{}, errorMessage:errorMessage, 
                                reqInfo:reqInfo});
 }
 
@@ -92,7 +92,7 @@ exports.LoginUser = async function(req, res, next) {
     
     passport.authenticate('local', {
         successRedirect : '/Home/Index', 
-        failureRedirect : '/User/Login?errorMessage=Invalid login.', 
+        failureRedirect : '/user/Login?errorMessage=Invalid login.', 
     }) (req, res, next);
   };
   
@@ -102,7 +102,7 @@ exports.Logout = (req, res) => {
     req.logout();
     let reqInfo = RequestService.reqHelper(req);
 
-    res.render('User/Login', { user:{}, isLoggedIn:false, errorMessage : "", 
+    res.render('user/Login', { user:{}, isLoggedIn:false, errorMessage : "", 
                                reqInfo:reqInfo});
 };
 
@@ -112,10 +112,10 @@ exports.Profile  = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
     let user = await _userRepo.getUser(reqInfo.username);
     if(reqInfo.authenticated) {
-        res.render('User/Profile', {errorMessage:"",user:{}, reqInfo:reqInfo, user})
+        res.render('user/Profile', {errorMessage:"",user:{}, reqInfo:reqInfo, user})
     }
     else {
-        res.redirect('/User/Login?errorMessage=You ' + 
+        res.redirect('/user/Login?errorMessage=You ' + 
                      'must be logged in to view this page.')
     }
 }
@@ -147,7 +147,7 @@ exports.Events = async function(req, res) {
         Notification = check_notification(eventsalt, user2)
     }
     if(!(reqInfo.authenticated)) {
-        res.redirect('/User/Login?errorMessage=You ' + 
+        res.redirect('/user/Login?errorMessage=You ' + 
                      'must be logged in to view this page.')
         return
         }
@@ -201,10 +201,10 @@ exports.Events = async function(req, res) {
     events2.sort((a, b) => b.date - a.date).reverse()
     events3.sort((a, b) => b.date - a.date).reverse()
     if(reqInfo.authenticated) {
-    return res.render('User/Events', { reqInfo:reqInfo, events:events, events2:events2, events3:events3, dateFormat:dateFormat, Notification:Notification });
+    return res.render('user/Events', { reqInfo:reqInfo, events:events, events2:events2, events3:events3, dateFormat:dateFormat, Notification:Notification });
     }
     else {
-        res.redirect('/User/Login?errorMessage=You ' + 
+        res.redirect('/user/Login?errorMessage=You ' + 
                      'must be logged in to view this page.')
     }
 };
@@ -213,7 +213,7 @@ exports.CreationEvent = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
     if(req.body.name == null || req.body.date == null)
     {
-        return res.render('User/CreateEvent', {errorMessage:"Invalid Entry", reqInfo:reqInfo})
+        return res.render('user/CreateEvent', {errorMessage:"Invalid Entry", reqInfo:reqInfo})
     }
 
     let temp  = new Event( {
@@ -240,10 +240,10 @@ exports.CreateEvent = async function(req, res, temp ="", errorMessage="") {
     let user = await _userRepo.getUser(reqInfo.username);
     let allusers = await _userRepo.allUsers()
     if(reqInfo.authenticated) {
-        res.render('User/CreateEvent', { reqInfo, user, event:{}, allusers:allusers, errorMessage:errorMessage});
+        res.render('user/CreateEvent', { reqInfo, user, event:{}, allusers:allusers, errorMessage:errorMessage});
     }
     else {
-        res.redirect('/User/Login')
+        res.redirect('/user/Login')
     }
 };
 
