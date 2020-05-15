@@ -49,6 +49,26 @@ describe('Properly create, login, and delete user', () => {
         done();
       })
   });
+
+  it('it should update user properly', (done) => {
+    let user = 
+    {
+      firstName: "Bill",
+      lastName: "Smith",
+      email: "jpr@gmail.com",
+      username: "james223",
+      old_username: "james223",
+  }
+  chai.request(app)
+      .post('/user/UpdateUser')
+      .send(user)
+      .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+        done();
+      })
+});
+
   async function deleter(username)
   {
     let deletedItem  = await _userRepo.delete(username);
@@ -115,5 +135,23 @@ describe('Create bad event', () => {
               res.body.should.be.a('object');
           done();
         })
+  });
+});
+
+describe('Fails to login', () => {
+  it('it should not login properly', (done) => {
+    let login = 
+    {
+      username: "opss",
+      password: "123456",
+  }
+  chai.request(app)
+      .post('/auth')
+      .send(login)
+      .end((err, res) => {
+            res.should.have.status(401);
+            res.body.should.be.a('object');
+        done();
+      })
   });
 });
