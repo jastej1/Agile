@@ -22,7 +22,7 @@ exports.Index = async function(req, res) {
             }
         }
     }
-    return res.render('home/Index', { reqInfo:reqInfo, Notification:Notification, myevents:myevents });
+    return res.render('home/index', { reqInfo:reqInfo, Notification:Notification, myevents:myevents });
 };
 function check_notification(events, user)
 {
