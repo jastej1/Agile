@@ -138,3 +138,20 @@ describe('Create bad event', () => {
   });
 });
 
+describe('Fails to login', () => {
+  it('it should not login properly', (done) => {
+    let login = 
+    {
+      username: "opss",
+      password: "123456",
+  }
+  chai.request(app)
+      .post('/auth')
+      .send(login)
+      .end((err, res) => {
+            res.should.have.status(401);
+            res.body.should.be.a('object');
+        done();
+      })
+  });
+});
