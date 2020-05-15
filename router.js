@@ -12,7 +12,7 @@ module.exports = function(app){
     app.get('/Home/Index', HomeController.Index)
     app.get('/Home/Index', UserController.Register);
     app.get('/User/Register', UserController.Register);
-    app.post('/User/RegisterUser', cors(), UserController.RegisterUser);
+    app.post('/user/registeruser', cors(), UserController.RegisterUser);
     app.get('/User/Login', UserController.Login);
     app.post('/User/LoginUser', UserController.LoginUser);
     app.get('/User/Logout', UserController.Logout);

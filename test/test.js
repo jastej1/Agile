@@ -24,7 +24,7 @@ describe('Properly create, login, and delete user', () => {
         passwordConfirm: "123456"
     }
     chai.request(app)
-        .post('/User/RegisterUser')
+        .post('/user/registeruser')
         .send(user)
         .end((err, res) => {
               res.should.have.status(200);
