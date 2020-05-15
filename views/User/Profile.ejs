@@ -1,0 +1,32 @@
+<% layout('../layouts/mainlayout.ejs') -%>
+<br/>
+<form action="/User/UpdateUser" method="POST"> <br>
+    <input id="old_username" name="old_username" type="hidden" value=<%=reqInfo.username %> />
+    <table>
+        <tr>
+            <td><b>Public Facing Name: </b></td>
+            <td><input name="username" type="text"
+                       value="<%= user.username ? user.username : '' %>"></td>
+        </tr>
+        <tr>
+            <td><b>First Name: </b></td>
+            <td><input name="firstName" type="text"
+                       value="<%= user.firstName ? user.firstName : '' %>"></td>
+        </tr> 
+        <tr>
+            <td><b>Last Name: </b></td>
+            <td><input name="lastName" type="text"
+                       value="<%= user.lastName ? user.lastName : '' %>"></td>
+        </tr>
+        <tr>
+            <td><b>Email: </b></td>
+            <td><input name="email" type="text"
+                       value="<%= user.email ? user.email : '' %>"></td>
+        </tr>                        
+        <tr>
+            <td></td>
+            <td> <input type="submit" value="Submit" style="width:150px"></td>
+        </tr>
+    </table>
+</form>
+<%= errorMessage %><br/>
