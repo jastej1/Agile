@@ -1,0 +1,26 @@
+<% layout('../layouts/mainlayout.ejs') -%>
+<br/>
+<h3>Edit Event</h3>
+<form action="/event/EditingEvent" method="POST"> <br>
+    <input id="eventid" name="eventid" type="hidden" value=<%=event._id %> />
+    <table>
+        <tr>
+            <td><b>New Event Name: </b</td>
+            <td><input name="new_name" type="text" value="<%= event.name ? event.name : '' %>"></td>
+        </tr>
+        <tr>
+            <td><b>New Description:</b></td>
+            <td><input name="new_description" type="text" value="<%= event.description ? event.description : '' %>"></td>
+        </tr>
+        <tr>
+            <td><b>New Date:</b></td>
+            <td><input name="new_date" type="datetime-local" value="<%= event.date ? event.date : '' %>"></td>
+        </tr>                      
+        <tr>
+            <td></td>
+            <td> <input type="submit" value="Submit" style="width:150px"></td>
+            <td> <a href="/user/MyEvents">Cancel</a></td>
+        </tr>
+    </table>
+</form>
+<%= errorMessage %><br/>

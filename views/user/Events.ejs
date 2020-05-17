@@ -32,7 +32,13 @@
             <td><%=events[i].description%></td>
             <td><%=dateFormat(events[i].date, "dddd, mmmm dS, yyyy")%></td>
             <td>
-                <form action="/Event/Delete" method="POST">
+                <form action="/event/EditEvent" method="POST">
+                  <input id="_id" name="_id" type="hidden" value=<%= events[i]._id %> >
+                  <input type="submit" value="Edit">
+                </form>
+              </td>
+              <td>
+                <form action="/event/Delete" method="POST">
                   <input id="_id" name="_id" type="hidden" value=<%= events[i]._id %> >
                   <input type="submit" value="Delete">
                 </form>

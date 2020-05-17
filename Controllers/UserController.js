@@ -120,6 +120,27 @@ exports.Profile  = async function(req, res) {
     }
 }
 
+exports.EditEvent  = async function(req, res) {
+    let reqInfo = RequestService.reqHelper(req);
+    let user = await _userRepo.getUser(reqInfo.username);
+    let allusers = await _userRepo.allUsers()
+    if(reqInfo.authenticated) {
+        res.render('user/EditEvent', {errorMessage:"",event:event, reqInfo:reqInfo, user, allusers: allusers})
+    }
+    else {
+        res.redirect('/user/Login?errorMessage=You ' + 
+                     'must be logged in to view this page.')
+    }
+}
+
+exports.EditingEvent  = async function(req, res) {
+    let reqInfo = RequestService.reqHelper(req);
+    let successmsg ="Updated Successfully"
+    let errorMessage = req.query.errorMessage; 
+    let responseObject = await _EventRepo.update(req.body.eventid, req.body.new_name, req.body.new_description, req.body.new_date)
+    return res.redirect('/user/MyEvents')
+}
+
 exports.UpdateUser  = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
     let successmsg ="Updated Successfully"

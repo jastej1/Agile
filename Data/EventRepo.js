@@ -68,14 +68,13 @@ class EventRepo {
         }
     }
 
-    async update(id, Stars, event) {
-        let respose ="all good";
-        let main_event = await this.getevent(id);
+    async update(id, new_name, new_description, new_date) {
+        let response ="Good Update";
         let updated = await Event.updateOne(
             {_id: id},
-            {$set: { Stars: Stars, event: event}}
+            {$set: { name: new_name, description: new_description, date: new_date}}
         )
-       return respose;
+       return response;
     }
     
 }

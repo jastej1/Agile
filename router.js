@@ -22,7 +22,9 @@ module.exports = function(app){
     app.post('/user/CreationEvent', cors(), UserController.CreationEvent);
     app.post('/user/UpdateUser', cors(), UserController.UpdateUser);
     app.post('/event/Delete', cors(), UserController.DeleteEvent);
-    app.post('/event/altDelete', cors(), UserController.AltDeleteEvent);    
+    app.post('/event/EditEvent', cors(), UserController.EditEvent);
+    app.post('/event/EditingEvent', cors(), UserController.EditingEvent);
+    app.post('/event/altDelete', cors(), UserController.AltDeleteEvent);
     // Sign in
     app.post(
         '/auth', cors(),
