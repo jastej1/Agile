@@ -123,6 +123,7 @@ exports.Profile  = async function(req, res) {
 exports.EditEvent  = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
     let user = await _userRepo.getUser(reqInfo.username);
+    let event = await _EventRepo.getevent(req.body._id)
     let allusers = await _userRepo.allUsers()
     if(reqInfo.authenticated) {
         res.render('user/EditEvent', {errorMessage:"",event:event, reqInfo:reqInfo, user, allusers: allusers})
