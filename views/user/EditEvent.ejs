@@ -14,7 +14,7 @@
         </tr>
         <tr>
             <td><b>New Date:</b></td>
-            <td><input name="new_date" type="datetime-local" value="<%= event.date ? event.date : '' %>"></td>
+            <td><input id ="flat"  name="new_date" type="datetime-local" placeholder="Select New Date/Time.."></td>
         </tr>                      
         <tr>
             <td></td>
@@ -24,3 +24,9 @@
     </table>
 </form>
 <%= errorMessage %><br/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+let flatinput = document.getElementById("flat");
+flatpickr(flatinput, {enableTime: true, dateFormat: "Y-m-d H:i",});
+</script>

@@ -6,7 +6,7 @@ const _userRepo      = new UserRepo();
 const EventRepo      = require('../Data/EventRepo');
 const _EventRepo     = new EventRepo();
 const Event          = require('../Models/Event')
-var dateFormat       = require('dateformat');
+const dateFormat     = require('dateformat');
 
 // Displays registration form.
 exports.Register = async function(req, res) {
@@ -237,7 +237,6 @@ exports.CreationEvent = async function(req, res) {
     {
         return res.render('user/CreateEvent', {errorMessage:"Invalid Entry", reqInfo:reqInfo})
     }
-
     let temp  = new Event( {
         name:               req.body.name,
         description:        req.body.description,
