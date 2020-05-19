@@ -13,7 +13,7 @@
             <td><input name="description" type="text" value="<%= event.description ? event.description : '' %>"></td>
         </tr>
             <td><b>Date:</b></td>
-            <td><input name="date" type="datetime-local" value="<%= event.date ? event.date : '' %>"></td>
+            <td><input id ="flat" name="date" placeholder="Select Date and Time.."type="datetime-local" value="<%= event.date ? event.date : '' %>"></td> 
         </tr>
         <tr>
             <td><b>Attendees:</b><p></td>
@@ -31,8 +31,11 @@
             </tr>
 
     </table>
-
-
 </form>
-
 <%= errorMessage %><br/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+let flatinput = document.getElementById("flat");
+flatpickr(flatinput, {enableTime: true, dateFormat: "Y-m-d H:i",});
+</script>

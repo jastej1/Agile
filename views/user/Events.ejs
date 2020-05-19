@@ -18,7 +18,7 @@
 <br><br>
     <h5 style="color: darkmagenta; position:relative; left: 10%;">You have no Events</h5>
 <%}%>
-<table style="width:600px; padding: 10%;">
+<table style="width:750px; padding: 10%;">
     <br>
     <h4 style="color: blueviolet;">All Events</h4>
     <% for (i=0; i < events.length; i++) { %>
@@ -30,9 +30,15 @@
         <tr>
             <td><%=events[i].name%></td>
             <td><%=events[i].description%></td>
-            <td><%=dateFormat(events[i].date, "dddd, mmmm dS, yyyy")%></td>
+            <td><%=dateFormat(events[i].date, "dddd, mmmm dS, yyyy, h:MM TT")%></td>
             <td>
-                <form action="/Event/Delete" method="POST">
+                <form action="/event/EditEvent" method="POST">
+                  <input id="_id" name="_id" type="hidden" value=<%= events[i]._id %> >
+                  <input type="submit" value="Edit">
+                </form>
+              </td>
+              <td>
+                <form action="/event/Delete" method="POST">
                   <input id="_id" name="_id" type="hidden" value=<%= events[i]._id %> >
                   <input type="submit" value="Delete">
                 </form>
