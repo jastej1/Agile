@@ -26,26 +26,23 @@ exports.RegisterUser  = async function(req, res){
         return res.render('user/Register', {errorMessage:"Invalid Entry", user:{}, reqInfo:reqInfo})
 
     }
-    
+    //Email validation
     if(!(req.body.email.includes("@")))
     {
         flag = true;
         return res.render('user/Register', {errorMessage:"Invalid Email", user:{}, reqInfo:reqInfo})
 
     }
-
+    //Password validation
     if(req.body.password.length < 6)
     {
         flag = true;
         return res.render('user/Register', {errorMessage:"Password must be minimum of 6 characters", user:{}, reqInfo:reqInfo})
 
     }
-
-    //console.log(flag);
+    //Password Confirmation
     if (password == passwordConfirm) {
 
-        // Creates user object with mongoose model.
-        // Note that the password is not present.
         var newUser = new User({
             firstName:    req.body.firstName,
             lastName:     req.body.lastName,
@@ -53,9 +50,6 @@ exports.RegisterUser  = async function(req, res){
             username:     req.body.username,
         });
        
-        // Uses passport to register the user.
-        // Pass in user object without password
-        // and password as next parameter.
         User.register(new User(newUser), req.body.password, 
                 function(err, account) {
                     // Show registration form with errors if fail.
@@ -65,8 +59,7 @@ exports.RegisterUser  = async function(req, res){
                         { user : newUser, errorMessage: err, 
                           reqInfo:reqInfo });
                     }
-                    // User registered so authenticate and redirect to secure 
-                    // area.
+
                     passport.authenticate('local') (req, res, 
                             function () { res.redirect('/'); });
                 });
@@ -89,7 +82,6 @@ exports.Login = async function(req, res) {
 }
 
 exports.LoginUser = async function(req, res, next) {
-    
     passport.authenticate('local', {
         successRedirect : '/Home/Index', 
         failureRedirect : '/user/Login?errorMessage=Invalid login.', 
@@ -101,11 +93,9 @@ exports.LoginUser = async function(req, res, next) {
 exports.Logout = (req, res) => {
     req.logout();
     let reqInfo = RequestService.reqHelper(req);
-
     res.render('user/Login', { user:{}, isLoggedIn:false, errorMessage : "", 
                                reqInfo:reqInfo});
 };
-
 
 
 exports.Profile  = async function(req, res) {
@@ -154,8 +144,7 @@ exports.UpdateUser  = async function(req, res) {
 
     let responseObject = await _userRepo.update(old_username, new_username, new_firstName, new_lastName, new_email);
     reqInfo = RequestService.reqHelper(req)
-    req.logout();
-    exports.Login(req, res);
+    return res.redirect('/')
 }
 
 exports.Events = async function(req, res) {
@@ -215,9 +204,6 @@ exports.Events = async function(req, res) {
             events3.push(alt_events[i]);
         }
     }
-
-
-
 
     events.sort((a, b) => b.date - a.date).reverse()
     events2.sort((a, b) => b.date - a.date).reverse()
@@ -285,7 +271,6 @@ exports.AltDeleteEvent = async function(req, res, temp ="", errorMessage="") {
     let id           = req.body._id;
     let deletedItem  = await _EventRepo.alt_delete(id)
 
-    // Some debug data to ensure the item is deleted.
     console.log(JSON.stringify(deletedItem));
     if(deletedItem.deletedCount == 0)
     {
@@ -300,8 +285,7 @@ function check_notification(events, user)
     let today = new Date()
     for(let i = 0; i < events.length; i++)
     {  
-        //console.log(today.getDate());
-        //console.log(events[i].date.getDate())
+
         if(user == events[i].userID && today.getMonth() == events[i].date.getMonth() && today.getDate() == events[i].date.getDate())
         {
             return true
