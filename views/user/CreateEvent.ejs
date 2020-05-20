@@ -1,24 +1,29 @@
 <% layout('../layouts/mainlayout.ejs') -%>
 
 <style type="text/css">
-	.login-form {
-		width: 400px;
-    	margin: 50px auto;
-	}
+    .login-form {
+        width: 400px;
+        margin: 50px auto;
+    }
+
     .login-form form {
-    	margin-bottom: 15px;
+        margin-bottom: 15px;
         background: #f7f7f7;
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
         padding: 30px;
     }
+
     .login-form h2 {
         margin: 0 0 15px;
     }
-    .form-control, .btn {
+
+    .form-control,
+    .btn {
         min-height: 38px;
         border-radius: 2px;
     }
-    .btn {        
+
+    .btn {
         font-size: 15px;
         font-weight: bold;
     }
@@ -26,36 +31,40 @@
 
 <div class="login-form">
     <form action="/user/CreationEvent" method="POST">
-        <input id="userID" name="userID" type="hidden" value=<%=user._id %>> 
-       <h2 class="text-center">Create Event</h2>       
-       <div class="form-group">
-        <input name="name" class="form-control" placeholder="Event Name" type="text" value="<%= event.name ? event.name : '' %>">
-       </div>
-       <div class="form-group">
-        <input name="description" class="form-control" placeholder="Description" type="text" value="<%= event.description ? event.description : '' %>">
-       </div>
-       <div class="form-group">
-        <input id ="rflat" class="form-control" name="date" placeholder="Select Date and Time.."type="datetime-local" value="<%= event.date ? event.date : '' %>">
-       </div>
-       <div class="form-group">
-           <p class="text-center" style="font-weight: bolder;">Attendees:</p>
-        <% for (let i=0; i < allusers.length; i++) { %>
+        <input id="userID" name="userID" type="hidden" value=<%=user._id %>>
+        <h2 class="text-center">Create Event</h2>
+        <div class="form-group">
+            <input name="name" class="form-control" placeholder="Event Name" type="text"
+                value="<%= event.name ? event.name : '' %>">
+        </div>
+        <div class="form-group">
+            <input name="description" class="form-control" placeholder="Description" type="text"
+                value="<%= event.description ? event.description : '' %>">
+        </div>
+        <div class="form-group">
+            <input id="rflat" class="form-control" name="date" placeholder="Select Date and Time.."
+                type="datetime-local" value="<%= event.date ? event.date : '' %>">
+        </div>
+        <div class="form-group">
+            <p class="text-center" style="font-weight: bolder;">Attendees:</p>
+            <% for (let i=0; i < allusers.length; i++) { %>
             <% if(allusers[i].username == reqInfo.username)
             {   continue; }
             %>
-        
-            <%=allusers[i].username%>&nbsp;</b><input name="attendees" type="checkbox" value="<%= allusers[i].username ? allusers[i].username : '' %>">
-        <% } %> 
-       </div>
-       <div class="form-group">
-           <button type="submit" class="btn btn-primary btn-block">Create</button>
-       </div>       
-   </form>
+
+            <%=allusers[i].username%>&nbsp;</b><input name="attendees" type="checkbox"
+                value="<%= allusers[i].username ? allusers[i].username : '' %>">
+            <% } %>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Create</button>
+        </div>
+    </form>
 </div>
-<%= errorMessage %><br/>
+<%= errorMessage %><br />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-let flatinput = document.getElementById("rflat");
-flatpickr(flatinput, {enableTime: true, dateFormat: "Y-m-d H:i",});
+    let flatinput = document.getElementById("rflat");
+    flatpickr(flatinput, { enableTime: true, dateFormat: "Y-m-d H:i", });
 </script>
