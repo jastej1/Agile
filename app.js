@@ -66,7 +66,7 @@ app.set('views', path.join(__dirname, 'views'));
 // link to static files (images, CSS, etc.). 
 // So if you put a style.css file in that directory and you 
 // could link directly to it in your view <link href=”style.css” rel=”stylesheet”>
-app.use(express.static(path.join(__dirname, 'static')));
+app.use("/public",express.static(__dirname + "/public"));
  
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -134,6 +134,7 @@ exports.EditingEvent = async function (req, res) {
     let successmsg = "Updated Successfully"
     let errorMessage = req.query.errorMessage;
     let responseObject = await _EventRepo.update(req.body.eventid, req.body.new_name, req.body.new_description, req.body.new_date)
+    console.log(responseObject)
     return res.redirect('/user/MyEvents')
 }
 

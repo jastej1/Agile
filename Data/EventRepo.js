@@ -73,11 +73,16 @@ class EventRepo {
 
     async update(id, new_name, new_description, new_date) {
         let response = "Good Update";
+        if(new_name == "" || new_description == "" || new_date == "")
+        {
+            return false
+        }
+        
         let updated = await Event.updateOne(
             { _id: id },
             { $set: { name: new_name, description: new_description, date: new_date } }
         )
-        return response;
+        return true;
     }
 
 }
