@@ -7,6 +7,7 @@
     <form action="/user/UpdateUser" method="POST">
         <input id="old_username" name="old_username" type="hidden" value=<%=reqInfo.username %> />
         <h2 class="text-center">Update Profile</h2>
+        <img style="display:block; margin-left: auto; margin-right: auto;"  src="https://cdn3.iconfinder.com/data/icons/mixed-communication-and-ui-pack-1/48/general_pack_NEW_glyph_profile-512.png" width="100px">
         <div class="form-group">
             <input name="username" class="form-control" type="text" placeholder="Username"
                 value="<%= user.username ? user.username : '' %>">
