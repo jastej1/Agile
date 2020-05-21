@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: '8corpcalendar'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_a5b54e308a69453db0c4971344760682 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_05f1a2092fbd424ba754c1c27d4f87fd }}
         package: .
