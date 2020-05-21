@@ -9,7 +9,7 @@ const UserRepo = require('../Data/UserRepo');
 const _userRepo = new UserRepo();
 const EventRepo = require('../Data/EventRepo');
 const _EventRepo = new EventRepo();
-var UserController   = require('../Controllers/UserController');
+var UserController = require('../Controllers/UserController');
 
 chai.use(chaiHttp);
 

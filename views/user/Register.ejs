@@ -1,12 +1,13 @@
 <% layout('../layouts/mainlayout.ejs') -%>
 <br />
 
-<link rel='stylesheet' href='/public/formstyle.css'/>
+<link rel='stylesheet' href='/public/formstyle.css' />
 
 <div class="login-form">
     <form action="/user/RegisterUser" method="POST">
         <h2 class="text-center">Register</h2>
-        <img style="display:block; margin-left: auto; margin-right: auto; padding-bottom: 10px;"  src="/public/usericon.png" width="100px">
+        <img style="display:block; margin-left: auto; margin-right: auto; padding-bottom: 10px;"
+            src="/public/usericon.png" width="100px">
         <div class="form-group">
             <input name="username" class="form-control" type="text" placeholder="Username"
                 value="<%= user.username ? user.username : '' %>">
