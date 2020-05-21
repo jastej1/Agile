@@ -1,12 +1,14 @@
 <% layout('../layouts/mainlayout.ejs') -%>
 <br />
 
-<link rel='stylesheet' href='/public/formstyle.css'/>
+<link rel='stylesheet' href='/public/formstyle.css' />
 
 <br>
 <div class="login-form">
     <form action="/user/LoginUser" method="POST">
         <h2 class="text-center">Login</h2>
+        <img style="display:block; margin-left: auto; margin-right: auto; padding-bottom: 20px;"
+            src="/public/usericon.png" width="100px">
         <div class="form-group">
             <input name="username" class="form-control" type="text" placeholder="Username"
                 value="<%= user.username ? user.username : '' %>">
@@ -20,5 +22,4 @@
     </form>
     <p class="text-center"><a href="/user/Register">Create an Account</a></p>
 </div>
-
-<p class="text-center"><%= errorMessage ? errorMessage : "" %></p><br>
+<p class="text-center" style="color: purple; font-weight: bold;"><%= errorMessage ? errorMessage : "" %></p><br>

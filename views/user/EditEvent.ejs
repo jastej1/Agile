@@ -1,6 +1,6 @@
 <% layout('../layouts/mainlayout.ejs') -%>
 <br />
-<link rel='stylesheet' href='/public/formstyle.css'/>
+<link rel='stylesheet' href='/public/formstyle.css' />
 
 <h3>Edit Event</h3>
 
@@ -8,20 +8,24 @@
     <form action="/event/EditingEvent" method="POST">
         <input id="eventid" name="eventid" type="hidden" value=<%=event._id %> />
         <h2 class="text-center">Edit Event</h2>
+        <img style="display:block; margin-left: auto; margin-right: auto; padding-bottom: 10px;"
+            src="/public/eventicon.png" width="100px">
         <b>New Name</b>
         <div class="form-group">
-            <input name="new_name" class="form-control" placeholder="New Event Name" type="text" value="<%= event.name ? event.name : '' %>"
-        </div>
-        <b>New Description</b>
-        <div class="form-group">
-            <input name="new_description" class="form-control" placeholder="New Description" type="text" value="<%= event.description ? event.description : '' %>">
-        </div>
-        <div class="form-group">
-            <input id="flat" class="form-control" name="new_date" type="datetime-local" placeholder="Select New Date/Time..">
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Update Event</button>
-        </div>
+            <input name="new_name" class="form-control" placeholder="New Event Name" type="text"
+                value="<%= event.name ? event.name : '' %>" </div>
+            <b>New Description</b>
+            <div class="form-group">
+                <input name="new_description" class="form-control" placeholder="New Description" type="text"
+                    value="<%= event.description ? event.description : '' %>">
+            </div>
+            <div class="form-group">
+                <input id="flat" class="form-control" name="new_date" type="datetime-local"
+                    placeholder="Select New Date/Time..">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Update Event</button>
+            </div>
     </form>
 </div>
 <p class="text-center"> <a href="/user/MyEvents">Cancel</a></p>

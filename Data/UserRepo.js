@@ -42,8 +42,7 @@ class UserRepo {
     }
 
     async update(old_username, new_username, new_firstName, new_lastName, new_email) {
-        if (new_username == "")
-        {
+        if (new_username == "") {
             return false
         }
         let main_user = await this.getUser(old_username);

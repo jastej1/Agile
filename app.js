@@ -68,8 +68,9 @@ app.set('views', path.join(__dirname, 'views'));
 // could link directly to it in your view <link href=”style.css” rel=”stylesheet”>
 app.use("/public",express.static(__dirname + "/public"));
  
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(process.env.PORT || 1337, function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
 
 module.exports = app; // for testing
