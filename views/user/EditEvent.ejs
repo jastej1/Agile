@@ -8,6 +8,7 @@
     <form action="/event/EditingEvent" method="POST">
         <input id="eventid" name="eventid" type="hidden" value=<%=event._id %> />
         <h2 class="text-center">Edit Event</h2>
+        <img style="display:block; margin-left: auto; margin-right: auto; padding-bottom: 10px;"  src="/public/eventicon.png" width="100px">
         <b>New Name</b>
         <div class="form-group">
             <input name="new_name" class="form-control" placeholder="New Event Name" type="text" value="<%= event.name ? event.name : '' %>"

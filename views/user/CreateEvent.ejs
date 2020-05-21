@@ -6,6 +6,7 @@
     <form action="/user/CreationEvent" method="POST">
         <input id="userID" name="userID" type="hidden" value=<%=user._id %>>
         <h2 class="text-center">Create Event</h2>
+        <img style="display:block; margin-left: auto; margin-right: auto; padding-bottom: 10px;"  src="/public/eventicon.png" width="100px">
         <div class="form-group">
             <input name="name" class="form-control" placeholder="Event Name" type="text"
                 value="<%= event.name ? event.name : '' %>">
